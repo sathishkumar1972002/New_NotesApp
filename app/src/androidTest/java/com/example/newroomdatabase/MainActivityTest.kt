@@ -1,13 +1,10 @@
 package com.example.newroomdatabase
 
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.longClick
@@ -15,17 +12,17 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.RootMatchers.isSystemAlertWindow
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isNotEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import org.junit.Assert.*
-import org.junit.Before
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
+
 
 
 class MainActivityTest{
@@ -50,11 +47,7 @@ class MainActivityTest{
     {
         onView(withId(R.id.head)).check(matches(isDisplayed()))
     }
-    @Test
-    fun MainActivity_HeadMenuButton_isVisible()
-    {
-        onView(withId(R.id.menu)).check(matches(isDisplayed()))
-    }
+
     @Test
     fun MainActivity_RecyclerView_isVisible()
     {
@@ -65,7 +58,12 @@ class MainActivityTest{
     {
         onView(withId(R.id.add)).check(matches(isDisplayed()))
     }
-
+    @Test
+    fun NotesActivit_isVisible()
+    {
+        var activity = ActivityScenario.launch(NotesActivity::class.java)
+        onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
+    }
     @Test
     fun addButtonIsClicked_navToNotesActivity(){
         val activityRule = ActivityScenario.launch(MainActivity::class.java)
@@ -101,8 +99,8 @@ class MainActivityTest{
         val activityRule = ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
-        onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
-        onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
+        onView(withId(R.id.iptitle)).perform(typeText("Title1  "), closeSoftKeyboard())
+        onView(withId(R.id.ipbody)).perform(typeText("Description1  "), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.main)).check(matches(isDisplayed()))
     }
@@ -111,7 +109,8 @@ class MainActivityTest{
         val activityRule = ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
-        onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
+        onView(withId(R.id.iptitle)).perform(typeText(""), closeSoftKeyboard())
+        onView(withId(R.id.ipbody)).perform(typeText("Description1 "), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
     }
@@ -120,7 +119,7 @@ class MainActivityTest{
         val activityRule = ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
-        onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
+        onView(withId(R.id.iptitle)).perform(typeText("Title1 "), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
     }
@@ -137,8 +136,8 @@ class MainActivityTest{
         val activityRule = ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
-        onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
-        onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
+        onView(withId(R.id.iptitle)).perform(typeText("Title1 "), closeSoftKeyboard())
+        onView(withId(R.id.ipbody)).perform(typeText("Description1 "), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
         onView(withText("$stradd")) .inRoot(isSystemAlertWindow()).check(matches(isDisplayed()))
 
@@ -149,7 +148,7 @@ class MainActivityTest{
         val activityRule = ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
-        onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
+        onView(withId(R.id.iptitle)).perform(typeText("Title1 "), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
         onView(withText("$str1")) .inRoot(isSystemAlertWindow()).check(matches(isDisplayed()))
     }
@@ -237,7 +236,7 @@ class MainActivityTest{
         onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.main)).check(matches(isDisplayed()))
-        onView(withId(R.id.menu)).perform(click())
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Delete All")).perform(click())
         onView(withText("Yes")).perform(click())
     }
@@ -250,7 +249,7 @@ class MainActivityTest{
         onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.main)).check(matches(isDisplayed()))
-        onView(withId(R.id.menu)).perform(click())
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Delete All")).perform(click())
         onView(withText("No")).perform(click())
     }
@@ -262,30 +261,14 @@ class MainActivityTest{
         onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
         onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
-        onView(withId(R.id.menu)).perform(click())
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Delete All")).perform(click())
         onView(withText("Yes")).perform(click())
-        onView(withId(R.id.menu)).perform(click())
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Delete All")).perform(click())
         onView(withText("Note is Empty")).inRoot(isSystemAlertWindow()).check(matches(isDisplayed()))
     }
-//    @Test
-//    fun multiSelection_check_unSelectCheck()
-//    {
-//        onView(withId(R.id.add)).perform(click())
-//        onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
-//        onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
-//        onView(withId(R.id.add)).perform(click())
-//        onView(withId(R.id.head)).perform(click())
-//        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
-//            longClick()
-//        ))
-//        onView(withId(R.id.deletemultiple)).check(matches(isDisplayed()))
-//        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
-//            click()
-//        ))
-//        onView(withId(R.id.add)).check(matches(isDisplayed()))
-//    }
+
        @Test
        fun updateCheck_oneNote_RecyclerView()
        {
@@ -338,6 +321,13 @@ class MainActivityTest{
         onView(withText("Notes")).perform(click())
         onView(withId(R.id.deleteButton)).perform(click())
         onView(withText("No")).perform(click())
+    }
+    @Test
+    fun menu()
+    {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
+        onView(withText("Search")).perform(click())
+
     }
 //    fun setDataToRecyclerView():List<Datas>
 //    {

@@ -1,7 +1,5 @@
 package com.example.newroomdatabase
 
-import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.*
@@ -12,10 +10,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import javax.inject.Inject
 import org.mockito.Mockito.*
-
 
 
 @RunWith(AndroidJUnit4::class)

@@ -16,7 +16,7 @@ class MainRepository(private val noteDao: NoteDao) {
         noteDao.deletebyIds(datas)
     }
 
-    suspend fun deleteAllnote() {
+     fun deleteAllnote() {
         noteDao.deleteAllData()
     }
 

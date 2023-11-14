@@ -1,21 +1,13 @@
 package com.example.newroomdatabase
 
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.TextView
-import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newroomdatabase.databinding.ActivityMainBinding
 
 var listId:ArrayList<Int> = ArrayList<Int>()
 class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener):RecyclerView.Adapter<ToAdapter.viewHolder>()
@@ -43,7 +35,6 @@ class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener
             date.text=datas[position].date
         }
         ///////////
-
 
             holder.constraint.setOnClickListener {
                 if (listId.size==0)
@@ -95,6 +86,14 @@ class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener
     fun clearSelected()   // To clear the selected list
     {
         listId.clear()
+    }
+
+    fun update(list1: List<Datas>)  // temperary list update to recycler view while searching
+    {
+         var datas1 = ArrayList<Datas>()
+        datas1.addAll(list1)
+        datas = datas1 as List<Datas>
+        notifyDataSetChanged()
     }
 
 }

@@ -181,6 +181,33 @@
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi M2101K6P" value="120" />
                   <entry key="Xiaomi Redmi Note 7S" value="120" />
+                  <entry key="motorola moto e(7) plus" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-974653341">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="Xiaomi Redmi Note 7S" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-935946906">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="Xiaomi Redmi Note 7S" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -369,6 +396,19 @@
           </value>
         </entry>
         <entry key="843593669">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="Xiaomi Redmi Note 7S" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="891182387">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">

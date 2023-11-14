@@ -2,43 +2,47 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     tools:context=".MainActivity">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="371dp"
-        android:layout_height="708dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="372dp"
+        android:layout_height="705dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/head"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginTop="32dp"/>
 
-    <TextView
-        android:id="@+id/head"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@color/ic_launcher_background"
-        android:drawableRight="@drawable/baseline_menu_vert_24"
-        android:drawablePadding="-20dp"
-        android:gravity="center_vertical"
-        android:paddingTop="0dp"
-        android:paddingRight="20dp"
-        android:text="Notes"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        android:textStyle="bold"
+        android:background="@color/yellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlCompat" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ic_launcher_background"
+            android:gravity="center"
+            android:text="Notes"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:ignore="RtlCompat" />
+    </androidx.appcompat.widget.Toolbar>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add"
@@ -53,15 +57,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/baseline_add_24" />
 
-    <TextView
-        android:id="@+id/menu"
-        android:layout_width="48dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.968"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/deletemultiple"
         android:layout_width="51dp"
@@ -69,11 +64,11 @@
         android:adjustViewBounds="false"
         android:background="@drawable/baseline_delete_24"
         android:clickable="true"
+        android:foregroundGravity="center"
         app:backgroundTint="@color/ic_launcher_background"
         app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/head"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="@color/yellow"
