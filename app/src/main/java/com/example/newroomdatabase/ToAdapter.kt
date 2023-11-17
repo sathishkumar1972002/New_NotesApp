@@ -1,6 +1,8 @@
 package com.example.newroomdatabase
 
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-var listId:ArrayList<Int> = ArrayList<Int>()
+var listId = ArrayList<Int>()
+var backgroundClr:Int = Color.WHITE
 class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener):RecyclerView.Adapter<ToAdapter.viewHolder>()
 {
 
@@ -20,6 +23,8 @@ class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener
         var content = itemview.findViewById<TextView>(R.id.notebody)
         var date = itemview.findViewById<TextView>(R.id.date)
         var constraint = itemview.findViewById<ConstraintLayout>(R.id.notelayout)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
@@ -27,7 +32,9 @@ class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener
         return viewHolder(view,noteClickListener)
     }
 
+
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
+       holder.constraint.setBackgroundColor(backgroundClr)
 
         holder.apply {
             title.text=datas[position].title_content
@@ -86,6 +93,7 @@ class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener
     fun clearSelected()   // To clear the selected list
     {
         listId.clear()
+        noteClickListener.itemClicktodelete(listId)
     }
 
     fun update(list1: List<Datas>)  // temperary list update to recycler view while searching
@@ -93,6 +101,20 @@ class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener
          var datas1 = ArrayList<Datas>()
         datas1.addAll(list1)
         datas = datas1 as List<Datas>
+        notifyDataSetChanged()
+    }
+
+    fun setAllDataForSelectAll()
+    {
+        listId.clear()
+
+        for(i in 0 until  datas.size)
+            listId.add(i)
+        noteClickListener.itemClicktodelete(listId)
+    }
+    fun setBackgroundColor(tmpColor:Int)
+    {
+          backgroundClr=tmpColor
         notifyDataSetChanged()
     }
 

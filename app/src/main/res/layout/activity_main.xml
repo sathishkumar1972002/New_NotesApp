@@ -1,77 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="372dp"
-        android:layout_height="705dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginTop="32dp"/>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@color/yellow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/head"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/deletemultipleLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ic_launcher_background"
-            android:gravity="center"
-            android:text="Notes"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            tools:ignore="RtlCompat" />
-    </androidx.appcompat.widget.Toolbar>
+            android:layout_height="match_parent"
+            android:background="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="@id/linearLayout2"
+            app:layout_constraintRight_toRightOf="@id/linearLayout2"
+            app:layout_constraintTop_toTopOf="@id/linearLayout2"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/closeSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@android:drawable/ic_delete"
+                app:backgroundTint="@color/yellow"
+                app:elevation="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/deletemultipleLayout"
+                app:layout_constraintEnd_toStartOf="@+id/selectText"
+                app:layout_constraintHorizontal_bias="0.027"
+                app:layout_constraintLeft_toLeftOf="@id/selectText"
+                app:layout_constraintStart_toStartOf="@+id/deletemultipleLayout"
+                app:layout_constraintTop_toTopOf="@id/deletemultipleLayout" />
+
+            <TextView
+                android:id="@+id/selectText"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginEnd="80dp"
+                android:background="@color/ic_launcher_background"
+                android:gravity="center"
+                android:text="Select the note"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/deletemultipleLayout"
+                app:layout_constraintEnd_toStartOf="@+id/selectAll"
+                app:layout_constraintTop_toTopOf="@id/deletemultipleLayout"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/selectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/baseline_checklist_24"
+                app:backgroundTint="@color/yellow"
+                app:elevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/toolbarHead"
+           app:layout_constraintBottom_toBottomOf="@id/linearLayout2"
+           app:layout_constraintLeft_toLeftOf="@id/linearLayout2"
+           app:layout_constraintRight_toRightOf="@id/linearLayout2"
+           app:layout_constraintTop_toTopOf="@id/linearLayout2">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="@id/toolbarHead"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="@id/toolbarHead"
+            app:layout_constraintRight_toRightOf="@id/toolbarHead"
+            app:layout_constraintTop_toTopOf="@id/linearLayout2"
+            app:layout_constraintVertical_bias="0.0"
+            app:title="">
+
+            <TextView
+                android:id="@+id/head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ic_launcher_background"
+                android:gravity="center"
+                android:text="Notes"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+        </androidx.appcompat.widget.Toolbar>
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
-        android:clickable="true"
-        app:backgroundTint="@color/ic_launcher_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/baseline_add_24" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/deletemultiple"
-        android:layout_width="51dp"
-        android:layout_height="53dp"
-        android:adjustViewBounds="false"
-        android:background="@drawable/baseline_delete_24"
-        android:clickable="true"
-        android:foregroundGravity="center"
-        app:backgroundTint="@color/ic_launcher_background"
-        app:elevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@color/yellow"
-        app:srcCompat="@drawable/baseline_delete_24" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="370dp"
+            android:layout_height="697dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.478"
+            app:layout_constraintLeft_toLeftOf="@id/constraintLayout2"
+            app:layout_constraintRight_toRightOf="@id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="@id/constraintLayout2">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_width="69dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="564dp"
+            android:background="@drawable/baseline_add_24"
+            android:clickable="true"
+            android:foreground="@drawable/baseline_add_24"
+            android:foregroundGravity="center"
+            app:backgroundTint="@color/ic_launcher_background"
+            app:circularflow_radiusInDP="10dp"
+            app:elevation="0dp"
+            app:layout_constraintHorizontal_bias="0.851"
+            app:layout_constraintLeft_toLeftOf="@id/constraintLayout2"
+            app:layout_constraintRight_toRightOf="@id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="@id/constraintLayout2" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/deletemultiple"
+            android:layout_width="66dp"
+            android:layout_height="67dp"
+            android:layout_marginTop="560dp"
+            android:adjustViewBounds="false"
+            android:background="@drawable/baseline_delete_24"
+            android:clickable="true"
+            android:foreground="@drawable/baseline_delete_24"
+            android:foregroundGravity="center"
+            app:backgroundTint="@color/ic_launcher_background"
+            app:elevation="0dp"
+            app:layout_constraintHorizontal_bias="0.859"
+            app:layout_constraintLeft_toLeftOf="@id/constraintLayout2"
+            app:layout_constraintRight_toRightOf="@id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="@id/constraintLayout2"
+            app:rippleColor="@color/yellow" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

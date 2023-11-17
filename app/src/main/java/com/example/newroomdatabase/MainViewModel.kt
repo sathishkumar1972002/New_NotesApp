@@ -27,10 +27,9 @@ class MainViewModel(val repository: MainRepository):ViewModel() {
       }
 
        fun deleteAllnote() {
-          CoroutineScope(Dispatchers.IO).launch {
+         // CoroutineScope(Dispatchers.IO).launch {
             repository.deleteAllnote()
-
-          }
+        // }
         }
 
        fun addNote(datas: Datas) {

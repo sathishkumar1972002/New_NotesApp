@@ -4,6 +4,6 @@
         <!-- Customize your light theme here. -->
         <item name="android:statusBarColor">@color/yellow</item>
     </style>
-
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
     <style name="Theme.NewRoomDataBase" parent="Base.Theme.NewRoomDataBase" />
 </resources>

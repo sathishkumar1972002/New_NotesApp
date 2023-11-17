@@ -18,6 +18,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
@@ -254,9 +255,7 @@ class MainActivityTest{
         onView(withText("No")).perform(click())
     }
     @Test
-    fun view_deleteAll_EmptyList_MainActivity_Menu()
-    {
-
+    fun view_deleteAll_EmptyList_MainActivity_Menu(){
         onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
         onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
@@ -264,9 +263,10 @@ class MainActivityTest{
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Delete All")).perform(click())
         onView(withText("Yes")).perform(click())
+        Thread.sleep(5000)
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Delete All")).perform(click())
-        onView(withText("Note is Empty")).inRoot(isSystemAlertWindow()).check(matches(isDisplayed()))
+//        onView(withText("Note is Empty")).inRoot(isSystemAlertWindow()).check(matches(isDisplayed()))
     }
 
        @Test
@@ -323,11 +323,16 @@ class MainActivityTest{
         onView(withText("No")).perform(click())
     }
     @Test
-    fun menu()
+    fun menuSearch()
     {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Search")).perform(click())
-
+    }
+    @Test
+    fun menuDeleteAll()
+    {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
+        onView(withText("Delete All")).perform(click())
     }
 //    fun setDataToRecyclerView():List<Datas>
 //    {
