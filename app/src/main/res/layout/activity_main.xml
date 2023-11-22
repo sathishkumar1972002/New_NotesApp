@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/deletemultipleLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:background="@color/yellow"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintHorizontal_bias="1.0"
@@ -71,39 +71,31 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:id="@+id/toolbarHead"
-           app:layout_constraintBottom_toBottomOf="@id/linearLayout2"
-           app:layout_constraintLeft_toLeftOf="@id/linearLayout2"
-           app:layout_constraintRight_toRightOf="@id/linearLayout2"
-           app:layout_constraintTop_toTopOf="@id/linearLayout2">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/yellow"
-            app:layout_constraintBottom_toBottomOf="@id/toolbarHead"
+            android:foregroundGravity="center"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:pointerIcon="all_scroll"
+            android:textAlignment="center"
+            android:theme="@style/AppTheme"
+            app:buttonGravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="@id/linearLayout2"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="@id/toolbarHead"
-            app:layout_constraintRight_toRightOf="@id/toolbarHead"
+            app:layout_constraintLeft_toLeftOf="@id/linearLayout2"
+            app:layout_constraintRight_toRightOf="@id/linearLayout2"
             app:layout_constraintTop_toTopOf="@id/linearLayout2"
             app:layout_constraintVertical_bias="0.0"
-            app:title="">
+            app:menu="@menu/toolbar"
+            app:popupTheme="@style/AppTheme"
+            app:title="                       Notes"
+            app:titleMarginStart="10dp"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#FFFFFF" />
 
-            <TextView
-                android:id="@+id/head"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/ic_launcher_background"
-                android:gravity="center"
-                android:text="Notes"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
-        </androidx.appcompat.widget.Toolbar>
-       </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

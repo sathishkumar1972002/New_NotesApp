@@ -7,22 +7,24 @@
     android:id="@+id/notesActivity"
     tools:context=".NotesActivity">
 
-    <TextView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back"
-        android:layout_width="69dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="@drawable/baseline_keyboard_backspace_24"
+        android:foregroundGravity="center"
+        app:backgroundTint="@color/ic_launcher_background"
+        app:elevation="0.001dp"
+        app:layout_constraintBottom_toBottomOf="@+id/head"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/ic_launcher_background"
-        android:drawableLeft="@drawable/baseline_keyboard_backspace_24"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"

@@ -2,9 +2,12 @@ package com.example.newroomdatabase
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.newroomdatabase.databinding.ActivityNotesBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -24,6 +27,11 @@ class NotesActivity : AppCompatActivity() {
     private lateinit var bdy:String
     lateinit var repository:MainRepository
     lateinit var viewModel: MainViewModel
+    lateinit var ipbody : TextView
+    lateinit var iptitle : TextView
+    lateinit var deleteButton : FloatingActionButton
+    lateinit var back : FloatingActionButton
+    lateinit var add : FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,23 +42,31 @@ class NotesActivity : AppCompatActivity() {
         repository = MainRepository(noteDao!!)
         viewModel = MainViewModel(repository)
 
-        bind.deleteButton.hide()
+        /// find view by Id
+        val tmpView = bind.root
+        ipbody = viewBind(tmpView,R.id.ipbody) as TextView
+        iptitle = viewBind(tmpView,R.id.iptitle) as TextView
+        deleteButton = viewBind(tmpView,R.id.deleteButton) as FloatingActionButton
+        back = viewBind(tmpView,R.id.back) as FloatingActionButton
+        add = viewBind(tmpView,R.id.add) as FloatingActionButton
+
+        deleteButton.hide()
 
         if (intent.hasExtra("ID"))
         {
-            bind.ipbody.setText(intent.getStringExtra("BODY").toString())
-            bind.iptitle.setText(intent.getStringExtra("TITLE").toString())
-            bind.deleteButton.show()
+            ipbody.setText(intent.getStringExtra("BODY").toString())
+           iptitle.setText(intent.getStringExtra("TITLE").toString())
+            deleteButton.show()
         }
-        bind.deleteButton.setOnClickListener {
+        deleteButton.setOnClickListener {
             showAlert()
 
         }
 
-        bind.add.setOnClickListener{
+       add.setOnClickListener{
 
-            tit = bind.iptitle.text.toString()
-            bdy = bind.ipbody.text.toString()
+            tit = iptitle.text.trim().toString()
+            bdy = ipbody.text.trim().toString()
 
             if (validate()) {
 
@@ -61,8 +77,8 @@ class NotesActivity : AppCompatActivity() {
                 else {
                     saveNote()
                     // Toast.makeText(this,"Updated ", Toast.LENGTH_SHORT).show()
-                    bind.iptitle.text = null
-                    bind.ipbody.text = null
+                    iptitle.text = null
+                    ipbody.text = null
 
                     finish()
                 }
@@ -70,10 +86,20 @@ class NotesActivity : AppCompatActivity() {
 
         }
 
-        bind.back.setOnClickListener {
+      back.setOnClickListener {
             finish()
         }
 
+    }
+
+    fun viewBind(rootView: View, id: Int): View {
+        val missingView = rootView.findViewById<View>(id)
+        if (missingView == null) {
+            val missingId = rootView.resources.getResourceName(id)
+            throw NullPointerException("Missing required view with ID: $missingId")
+        }
+        else
+            return missingView
     }
 
     private fun delete_UpdateNoteById() {
@@ -119,7 +145,7 @@ class NotesActivity : AppCompatActivity() {
 
     private fun validate():Boolean
     {
-        if (tit.trim().isNullOrEmpty() or bdy.trim().isNullOrEmpty())
+        if (tit.isNullOrEmpty() or bdy.isNullOrEmpty())
         {
             Toast.makeText(this,"Not allowed to add empty notes ", Toast.LENGTH_SHORT).show()
             return false

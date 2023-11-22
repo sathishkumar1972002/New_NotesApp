@@ -11,6 +11,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newroomdatabase.databinding.ActivityMainBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +45,13 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
     lateinit var viewModel : MainViewModel
     lateinit var repository : MainRepository
     lateinit var toolbar: Toolbar
+    lateinit var deletemultiple:FloatingActionButton
+    lateinit var deletemultipleLayout:ConstraintLayout
+    lateinit var recyclerView : RecyclerView
+    lateinit var add : FloatingActionButton
+    lateinit var closeSelect : FloatingActionButton
+    lateinit var selectAll : FloatingActionButton
+    lateinit var selectText : TextView
     lateinit var searchView: SearchView
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -55,7 +64,17 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
         var noteDao = NoteDatabase.getInstance(this)?.Notedao()
         repository = MainRepository(noteDao!!)
         viewModel = MainViewModel(repository)
-        toolbar = findViewById(R.id.toolbar)
+        ////set view by ID
+        val tmpView = bind.root
+        toolbar = viewBind(tmpView,R.id.toolbar) as Toolbar
+        deletemultiple = viewBind(tmpView,R.id.deletemultiple) as FloatingActionButton
+        deletemultipleLayout = viewBind(tmpView,R.id.deletemultipleLayout) as ConstraintLayout
+        recyclerView = viewBind(tmpView,R.id.recyclerView) as RecyclerView
+        add = viewBind(tmpView,R.id.add) as FloatingActionButton
+        closeSelect = viewBind(tmpView,R.id.closeSelect) as FloatingActionButton
+        selectAll = viewBind(tmpView,R.id.selectAll) as FloatingActionButton
+        selectText = viewBind(tmpView,R.id.selectText) as TextView
+
         setSupportActionBar(toolbar)
 
 
@@ -63,31 +82,34 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
             setData()
         })
 
-          bind.deletemultiple.hide() // button visible only multiselect
-        bind.deletemultipleLayout.visibility=View.INVISIBLE
+          deletemultiple.hide() // button visible only multiselect
+        deletemultipleLayout.visibility=View.INVISIBLE
 
-        bind.recyclerView.setHasFixedSize(true)
-        bind.recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        bind.add.setOnClickListener {
-            var intent= Intent(this,NotesActivity::class.java)
-            startActivity(intent)
+        add.setOnClickListener {
+            if (searchlistId.isEmpty()) {
+                var intent = Intent(this, NotesActivity::class.java)
+                startActivity(intent)
+            }
+            else Toast.makeText(this,"Not allowed to add note",Toast.LENGTH_SHORT).show()
 
         }
 
-        bind.deletemultiple.setOnClickListener {
+        deletemultiple.setOnClickListener {
             Log.d("sathish", "onCreate: $tmp")
             if(!tmp.isEmpty())
                 showAlert1()
         }
-        bind.closeSelect.setOnClickListener {
+        closeSelect.setOnClickListener {
 
             adapter.setBackgroundColor(Color.WHITE)
             tmp.clear()
             adapter.clearSelected()
 
         }
-        bind.selectAll.setOnClickListener {
+        selectAll.setOnClickListener {
 
           if(searchlist1.isEmpty())
           {
@@ -126,10 +148,19 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
              }
          }
         }
-      //  toolbar.setOnClickListener { showPopUpMenu(it) }
+
 
     }
 
+    fun viewBind(rootView: View, id: Int):View {
+        val missingView = rootView.findViewById<View>(id)
+        if (missingView == null) {
+            val missingId = rootView.resources.getResourceName(id)
+            throw NullPointerException("Missing required view with ID: $missingId")
+        }
+        else
+            return missingView
+    }
 
 
     @SuppressLint("NotifyDataSetChanged", "ResourceAsColor")
@@ -145,7 +176,8 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
                 adapter= ToAdapter(list,this@MainActivity)
                 bind.recyclerView.adapter= adapter
                 adapter.notifyDataSetChanged()
-       //         ItemTouchHelper(callBack).attachToRecyclerView(bind.recyclerView)   //attach swipe future to recycler view
+
+              // ItemTouchHelper(callBack).attachToRecyclerView(bind.recyclerView)   //attach swipe future to recycler view
             }
         }
 
@@ -181,11 +213,12 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
               for (i in listId)
                   tmp.add(searchlistId[i])
           }
-          if(tmp.size==1)  bind.selectText.setText("${tmp.size} item selected") // it shows no of item selected
-          else bind.selectText.setText("${tmp.size} items selected")
+          if(tmp.size==1)  selectText.setText("${tmp.size} item selected") // it shows no of item selected
+          else selectText.setText("${tmp.size} items selected")
       }
          else
        {
+           adapter.setBackgroundColor(Color.WHITE)
            showToolbar()
        }
     }
@@ -250,28 +283,25 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
 
     }
 
-  /*  private fun showAlert_whileSwipe(id:Int){
+//   private fun showAlert_whileSwipe(id:Int){
+//
+//        val alert = AlertDialog.Builder(this)
+//            .setTitle("Delete")
+//            .setMessage("Do you want to delete this note?")
+//            .setPositiveButton("Yes")
+//            { p0, p1 ->
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    viewModel.delete_UpdateNotebyId(id)
+//                }
+//            }
+//            .setNegativeButton("No",null)
+//            .show()
+//
+//    }
 
-        val alert = AlertDialog.Builder(this)
-            .setTitle("Delete")
-            .setMessage("Do you want to delete this note?")
-            .setPositiveButton("Yes")
-            { p0, p1 ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.delete_UpdateNotebyId(id)
-                }
-            }
-            .setNegativeButton("No",null)
-            .show()
 
-    }*/
+   // Swipe to delete
 
-    override fun onBackPressed() { // when I close app selected items will clear
-       adapter.clearSelected()
-        super.onBackPressed()
-    }
-
-    //Swipe to delete
 //       private val callBack = object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
 //        override fun onMove(
 //            recyclerView: RecyclerView,
@@ -292,8 +322,18 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
 //            }
 //            adapter.notifyDataSetChanged()
 //        }
+//
+//           override fun isItemViewSwipeEnabled(): Boolean {
+//               return (tmp.isEmpty() && searchlist1.isEmpty())
+//           }
+//
 //    }
 
+
+    override fun onBackPressed() { // when I close app selected items will clear
+        adapter.clearSelected()
+        super.onBackPressed()
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar,menu)
         return true
@@ -363,105 +403,28 @@ class MainActivity : AppCompatActivity(),ToAdapter.NoteClickListener {
                     }
 
                 })
+
                 true
             }
-
-            else -> super.onOptionsItemSelected(item)
         }
         return super.onOptionsItemSelected(item)
     }
 
-//       private fun showPopUpMenu(view: View)
-//       {
-//
-//             Menu = PopupMenu(this, view)
-//            Menu.menuInflater.inflate(R.menu.toolbar,Menu.menu)
-//            Menu.setOnMenuItemClickListener { item ->
-//                when(item.itemId)  //// we initiate which menu file we want to use
-//                {
-//                    R.id.deleteAll ->
-//                    {
-//                        if (list.isEmpty())
-//                        {
-//                            Toast.makeText(this,"Note is Empty", Toast.LENGTH_SHORT).show()
-//                            false
-//                        }
-//                        else {
-//                            if(searchlistId.isEmpty() && searchlist1.isEmpty())
-//                            {
-//                                showAlert()
-//                                true
-//                            }
-//                            else
-//                            {
-//                                tmp.clear()
-//                                for (i in searchlist1)
-//                                    tmp.add(i.Id)
-//
-//                                Log.d("sathish", "onOptionsItemSelected: $searchlistId")
-//                                Log.d("sathish", "onOptionsItemSelected: $searchlist1")
-//                                showAlert1()
-//                                true
-//                            }
-//
-//                        }
-//                    }
-//                    R.id.search ->
-//                    {
-//                        searchView = item.actionView as SearchView
-//                        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-//                            override fun onQueryTextSubmit(query: String?): Boolean {
-//                                return true
-//                            }
-//
-//                            override fun onQueryTextChange(newText: String?): Boolean {
-//                                searchlistId.clear()      // list of search results iD
-//                                searchlist1.clear()     // list of search results
-//                                tmp.clear()
-//                                if (!newText!!.trim().isNullOrEmpty())
-//                                {
-//                                    for (i in list)
-//                                    {
-//                                        if ((i.title_content.lowercase().contains(newText.lowercase())) or (i.body_content.lowercase().contains(newText.lowercase())))
-//                                        {
-//                                            searchlist1.add(i)
-//                                            searchlistId.add(i.Id)
-//                                        }
-//                                    }
-//                                }
-//                                else
-//                                {
-//                                    searchlist1.addAll(list)
-//                                }
-//
-//                                adapter.update(searchlist1)
-//                                return true
-//                            }
-//
-//                        })
-//                        true
-//                    }
-//
-//                    else -> false
-//                }
-//
-//            }
-//            Menu.show()
-//        }
-
        private fun showToolbar()
        {
-           bind.add.show()
-           bind.deletemultiple.hide()
-           bind.deletemultipleLayout.visibility=View.INVISIBLE
-           bind.toolbar.visibility =View.VISIBLE
+           add.show()
+           deletemultiple.hide()
+           deletemultipleLayout.visibility=View.INVISIBLE
+           toolbar.visibility =View.VISIBLE
        }
         private fun showSelectedLayout()
         {
-            bind.add.hide()
-            bind.deletemultiple.show()
-            bind.deletemultipleLayout.visibility=View.VISIBLE
-            bind.toolbar.visibility =View.INVISIBLE
+            add.hide()
+            deletemultiple.show()
+            deletemultipleLayout.visibility=View.VISIBLE
+            toolbar.visibility =View.INVISIBLE
         }
-       }
+
+
+}
 

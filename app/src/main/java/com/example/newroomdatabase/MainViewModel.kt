@@ -20,7 +20,7 @@ class MainViewModel(val repository: MainRepository):ViewModel() {
 
       fun delete_noteByIds(tmp:ArrayList<Int>) {
         CoroutineScope(Dispatchers.IO).launch {
-            val datas = tmp
+            val datas = tmp as List<Int>
             repository.delete_noteByIds(datas)
             // To clear the selected list
         }

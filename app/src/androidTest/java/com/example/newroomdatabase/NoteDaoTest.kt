@@ -1,16 +1,28 @@
 package com.example.newroomdatabase
 
+import android.content.Context
+import android.content.res.Resources
+import android.view.LayoutInflater
+import android.view.View
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.*
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.ext.junit.runners.AndroidJUnit4
+
+//import androidx.test.ext.junit.runners.*
 import androidx.test.filters.SmallTest
+import com.example.newroomdatabase.databinding.ActivityMainBinding
+import com.example.newroomdatabase.databinding.NotelayoutBinding
 import com.google.common.truth.Truth.*
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
 
 
 @RunWith(AndroidJUnit4::class)
@@ -22,12 +34,12 @@ class NoteDaoTest
     lateinit var noteDao: NoteDao
     lateinit var repository: MainRepository
     lateinit var viewModel: MainViewModel
-//    @Mock
-//    lateinit var recyclerview: RecyclerView
-//    @Mock
-//    lateinit var adapter:RecyclerView.Adapter<*>
-//    @Mock
-//    lateinit var toAdapter:ToAdapter
+
+    @Mock
+    private lateinit var mockRootView: View
+
+    @Mock
+    private lateinit var mockResources: Resources
 
     @Before
     fun setDatabase()
@@ -152,6 +164,7 @@ class NoteDaoTest
         var datas =  Datas(1,"test","content","12-06-2002")
         repository.addNotes(datas)
         var value = repository.getAllData()
+        assertThat(value[0]).isEqualTo(datas)
         assertThat(value).isNotEmpty()
     }
     @Test
@@ -292,6 +305,7 @@ class NoteDaoTest
         viewModel.addNote(Datas(3,"test3","content3","12-06-2002"))
         var delList = arrayListOf<Int>(1,2)
         viewModel.delete_noteByIds(delList)
+        Thread.sleep(1000)
         var value = viewModel.getAllData()
         val dataslist = ArrayList<Datas>()
         dataslist.add (Datas(1,"test1","content1","12-06-2002"))
@@ -309,5 +323,40 @@ class NoteDaoTest
 ////          adapter= ToAdapter(datas,adapter.noteClickListener)
 //        return datas
 //    }
+
+    @Test
+    fun bindingTestNoteLayout()
+    {
+        val context: Context = ApplicationProvider.getApplicationContext()
+        val binding = NotelayoutBinding.inflate(LayoutInflater.from(context))
+
+        data class Test(val noteBody:String,val noteTitle:String,val date : String)
+
+        val test = Test("Note body text Test","Note title text","12/05/2023 Test")
+        binding.apply {
+
+            notebody.text = test.noteBody
+            notetitle.text = test.noteTitle
+            date.text = test.date
+
+            assertEquals(notebody.text,test.noteBody)
+            assertEquals(notetitle.text,test.noteTitle)
+            assertEquals(date.text,test.date)
+
+        }
+    }
+
+
+//    @Test
+//    fun bindingTestNotesActivity()
+//    {
+//        assertNotNull(R.id.add)
+//        assertNotNull(R.id.back)
+//        assertNotNull(R.id.deleteButton)
+//        assertNotNull(R.id.iptitle)
+//        assertNotNull(R.id.ipbody)
+//        assertNotNull(R.id.linearLayoutCompat)
+//    }
+
 
 }

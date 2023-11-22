@@ -38,4 +38,6 @@ interface NoteDao {
 
     @Query("delete from noteTable where id in (:id1)")
     fun deletebyIds(id1:List<Int>)
+
+
 }

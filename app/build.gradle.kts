@@ -138,14 +138,15 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
     implementation("androidx.test.espresso:espresso-contrib:3.5.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
+   // testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     ksp("androidx.room:room-compiler:2.6.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation("junit:junit:4.13.2")
+  //  testImplementation("junit:junit:4.13.2")
+  //  androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
@@ -159,7 +160,30 @@ dependencies {
 
     implementation("org.jacoco:org.jacoco.core:0.8.10")
 
-    implementation("org.mockito:mockito-junit-jupiter:5.7.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    androidTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+
+//    testImplementation("org.powermock:powermock-api-mockito2:2.0.9")
+   // testImplementation("org.powermock:powermock-module-junit4:2.0.9")
+   // androidTestImplementation("org.powermock:powermock-api-mockito2:2.0.9")
+ //   androidTestImplementation("org.powermock:powermock-module-junit4:2.0.9")
+    testImplementation ("org.powermock:powermock-api-mockito2:2.0.9")
+    testImplementation ("org.powermock:powermock-module-junit4:2.0.9")
+
+
+    testImplementation("org.mockito:mockito-core:5.7.0")
+    androidTestImplementation("org.mockito:mockito-core:5.7.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.7.0")
+    androidTestImplementation("org.mockito:mockito-junit-jupiter:5.7.0")
+
+    androidTestImplementation ("org.mockito:mockito-android:3.12.4")
+
+
+    androidTestImplementation ("androidx.test:core:1.5.0")
+    androidTestImplementation ("androidx.arch.core:core-testing:2.2.0")
+    androidTestImplementation ("androidx.room:room-testing:2.6.0")
 //    testImplementation ("org.mockito:mockito-core:2.13.0")
 //    testImplementation ("org.mockito:mockito-inline:4.5.1")
 //    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.1.0")

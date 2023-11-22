@@ -11,18 +11,19 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-var listId = ArrayList<Int>()
+
 var backgroundClr:Int = Color.WHITE
+var listId = ArrayList<Int>()
 class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener):RecyclerView.Adapter<ToAdapter.viewHolder>()
 {
 
     inner class viewHolder(itemview : View,noteClickListener: NoteClickListener) : RecyclerView.ViewHolder(itemview)
     {
 
-        var title = itemview.findViewById<TextView>(R.id.notetitle)
-        var content = itemview.findViewById<TextView>(R.id.notebody)
-        var date = itemview.findViewById<TextView>(R.id.date)
-        var constraint = itemview.findViewById<ConstraintLayout>(R.id.notelayout)
+        var title = viewBind(itemview,R.id.notetitle) as TextView
+        var content = viewBind(itemview,R.id.notebody) as TextView
+        var date = viewBind(itemview,R.id.date) as TextView
+        var constraint = viewBind(itemview,R.id.notelayout) as ConstraintLayout
 
 
     }
@@ -116,6 +117,16 @@ class ToAdapter(var datas : List<Datas>,val noteClickListener: NoteClickListener
     {
           backgroundClr=tmpColor
         notifyDataSetChanged()
+    }
+
+    fun viewBind(rootView: View, id: Int):View {
+        val missingView = rootView.findViewById<View>(id)
+        if (missingView == null) {
+            val missingId = rootView.resources.getResourceName(id)
+            throw NullPointerException("Missing required view with ID: $missingId")
+        }
+        else
+            return missingView
     }
 
 }

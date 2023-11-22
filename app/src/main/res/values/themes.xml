@@ -3,6 +3,16 @@
     <style name="Base.Theme.NewRoomDataBase" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="android:statusBarColor">@color/yellow</item>
+
+    </style>
+    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <!-- You can add more styling attributes as needed -->
+    </style>
+    <style name="MenuBelowActionBar" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/yellow</item>
+        <item name="android:layout_marginTop">?attr/actionBarSize</item>
     </style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
     <style name="Theme.NewRoomDataBase" parent="Base.Theme.NewRoomDataBase" />

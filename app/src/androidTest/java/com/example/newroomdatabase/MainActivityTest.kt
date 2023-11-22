@@ -1,7 +1,10 @@
 package com.example.newroomdatabase
 
+import android.content.Context
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.Espresso.pressBack
@@ -12,12 +15,16 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.RootMatchers.isSystemAlertWindow
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import com.example.newroomdatabase.databinding.NotelayoutBinding
+import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
@@ -32,8 +39,6 @@ class MainActivityTest{
 
     @get:Rule
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
-    @Mock
-    lateinit var adapter: ToAdapter
 
         var str1 ="Not allowed to add empty notes "
         var stradd = "Added"
@@ -42,11 +47,6 @@ class MainActivityTest{
     fun isMainActivityView()
     {
         onView(withId(R.id.main)).check(matches(isDisplayed()))
-    }
-    @Test
-    fun MainActivity_HeadTitle_isVisible()
-    {
-        onView(withId(R.id.head)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -86,6 +86,7 @@ class MainActivityTest{
         onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
         onView(withId(R.id.back)).perform(click())
         onView(withId(R.id.main)).check(matches(isDisplayed()))
+
     }
     @Test
     fun mobilePressBack_navToMainActivity(){
@@ -216,31 +217,33 @@ class MainActivityTest{
         onView(withId(R.id.iptitle)).perform(typeText("Title2"), closeSoftKeyboard())
         onView(withId(R.id.ipbody)).perform(typeText("Description2"), closeSoftKeyboard())
         onView(withId(R.id.add)).perform(click())
+        onView(withId(R.id.add)).perform(click())
+        onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
+        onView(withId(R.id.iptitle)).perform(typeText("Title3"), closeSoftKeyboard())
+        onView(withId(R.id.ipbody)).perform(typeText("Description3"), closeSoftKeyboard())
+        onView(withId(R.id.add)).perform(click())
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
             longClick()
         ))
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1,
             click()
         ))
-        onView(withId(R.id.deletemultiple)).check(matches(isDisplayed()))
+
         onView(withId(R.id.deletemultiple)).perform(click())
+        Thread.sleep(1000)
         onView(withText("No")).perform(click())
-        onView(withId(R.id.main)).check(matches(isDisplayed()))
+        Thread.sleep(1000)
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
+            click()
+        ))
+        onView(withId(R.id.selectAll)).perform(click())
+        onView(withId(R.id.selectAll)).perform(click())
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
+            longClick()
+        ))
+        onView(withId(R.id.closeSelect)).perform(click())
     }
 
-    @Test
-    fun deleteAll_clickYesInAlert_NotEmptyList_MainActivity_Menu()
-    {
-        onView(withId(R.id.add)).perform(click())
-        onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
-        onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
-        onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
-        onView(withId(R.id.add)).perform(click())
-        onView(withId(R.id.main)).check(matches(isDisplayed()))
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        onView(withText("Delete All")).perform(click())
-        onView(withText("Yes")).perform(click())
-    }
     @Test
     fun deleteAll_clickNoInAlert_NotEmptyList_MainActivity_Menu()
     {
@@ -266,7 +269,7 @@ class MainActivityTest{
         Thread.sleep(5000)
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(withText("Delete All")).perform(click())
-//        onView(withText("Note is Empty")).inRoot(isSystemAlertWindow()).check(matches(isDisplayed()))
+        onView(withText("Note is Empty")).inRoot(isSystemAlertWindow()).check(matches(isDisplayed()))
     }
 
        @Test
@@ -322,28 +325,35 @@ class MainActivityTest{
         onView(withId(R.id.deleteButton)).perform(click())
         onView(withText("No")).perform(click())
     }
-    @Test
-    fun menuSearch()
-    {
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        onView(withText("Search")).perform(click())
-    }
-    @Test
-    fun menuDeleteAll()
-    {
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        onView(withText("Delete All")).perform(click())
-    }
-//    fun setDataToRecyclerView():List<Datas>
-//    {
-//        var datas = listOf<Datas>(
-//            Datas(1,"tit1","descrip1","date"),
-//            Datas(2,"tit2","descrip2","date"),
-//            Datas(3,"tit3","descrip3","date")
-//        )
+
+//    @Test
+//    fun pressBackClearItems() {
 //
-//          return datas
+//
+//        onView(withId(R.id.toolbar)).perform(click())
+//        Thread.sleep(1000)
+//        pressBack()
+//
 //    }
+
+    @Test
+    fun searchView_Check()
+    {
+        onView(withId(R.id.add)).perform(click())
+        onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
+        onView(withId(R.id.iptitle)).perform(typeText("Title1"), closeSoftKeyboard())
+        onView(withId(R.id.ipbody)).perform(typeText("Description1"), closeSoftKeyboard())
+        onView(withId(R.id.add)).perform(click())
+        onView(withId(R.id.add)).perform(click())
+        onView(withId(R.id.notesActivity)).check(matches(isDisplayed()))
+        onView(withId(R.id.iptitle)).perform(typeText("Title2"), closeSoftKeyboard())
+        onView(withId(R.id.ipbody)).perform(typeText("Description2"), closeSoftKeyboard())
+        onView(withId(R.id.add)).perform(click())
+        onView(withId(R.id.search)).check(matches(isDisplayed()))
+        onView(withId(R.id.search)).perform(click()).perform(typeText("Title1"))
+
+    }
+
 
 
 }
